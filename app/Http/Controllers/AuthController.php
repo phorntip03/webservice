@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    //คำสั่งสำหรับลบ Token ที่ใช้ปัจจุบัน
+    public function logout(Request $request){
+        //  dd($req->email."".$req->password);
+            $request->user()->currentAccessToken()->delete();
+            return response()->json([
+                'message' => 'logout Complete',
+                
+         ]);
+}
+        //คำสั่ง login
     public function login(Request $req){
       //  dd($req->email."".$req->password);
         $check = Validator::make($req -> all(),[
