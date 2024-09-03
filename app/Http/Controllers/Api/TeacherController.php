@@ -8,17 +8,21 @@ use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
+
         $json  = Teacher::query()
-       ->whereBetween('id',[1,50]) //แสดงเฉพาะเจาะจงมากขึ้น
+       ->whereBetween('id',[1,50]) 
        ->get();
+        
 
-       return response()->json([
-        'status' => '200 OK',
-        'data' => $json
-       ]);
-
+        return response()->json([
+            'status' => '200 OK',
+            'data'=> $json
+        ]);
     }
 
     /**
@@ -34,16 +38,18 @@ class TeacherController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        //เพิ่มข้อมูลลงใน Database
-       $json = Teacher::create([
+       
+
+        $json = Teacher::create([
+
             'title_id' => $request->title_id,
             'name' => $request->name,
             'lastname' => $request->lastname,
             'email' => $request->email,
-            'province' => $request->province,
+            'province_id' => $request->province_id,
         ]);
-        return response() -> json([
+
+        return response()->json([
             'data' => $json,
         ]);
     }
@@ -53,13 +59,14 @@ class TeacherController extends Controller
      */
     public function show(string $id)
     {
-        dd($id);
+        
+
         $json = Teacher::find($id);
 
         return response()->json([
-            'status code' => "200",
-            'data' => $json
-        ]);    
+            'status code' => "200 ",
+            'data'=> $json
+        ]);
     }
 
     /**
@@ -75,13 +82,13 @@ class TeacherController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // dd($request->name);
         $json = Teacher::where('id',$id)->update([
             'name' => $request->name,
-        ]);
 
+        ]);
         return response()->json([
             'data' => $json
+
         ]);
     }
 
@@ -90,11 +97,11 @@ class TeacherController extends Controller
      */
     public function destroy(string $id)
     {
-        // dd(555);
         $json = Teacher::where('id',$id)->delete();
 
         return response()->json([
             'data' => $json,
+
         ]);
     }
 }
