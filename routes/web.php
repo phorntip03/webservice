@@ -19,7 +19,7 @@ Route::get('/', function () {
     // $model = Region::all();
     // dd($model[0]->country);
     $model = country::all();
-    // dd($model[0]->region[0]->province[0]->teacher[0]);
+    //dd($model[0]->region[0]->province[0]->teacher[0]);
 
     $t = Teacher::find(1);
     dd($t->province->region->country);
