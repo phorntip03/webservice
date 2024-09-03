@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -26,8 +27,18 @@ class AuthController extends Controller
             $data = request(['email','password']);
            //การตรวจสอบข้อมูลในตัวแปล  $data ตรงกับฐานข้อมูลหรือมั้ย
            if(Auth::attempt($data)){
-            dd("login สำเร็จ");
-           }else{
+            //ค้นหาผู้ใช้ โดยผ่าน email
+            $user = User::where('email',$req->email)->first();
+            //สร้าง token สำหรับ user และเก็บตัวแปร token
+            $token =$user -> createToken('authToken')->plainTextToken;
+            return response()->json([
+                "message" => "login สำเร็จ",
+                "status_code" => "200",
+                "user infomation" => $user,
+                "token" => $token,
+            ]);
+            //dd("login สำเร็จ");
+             }else{
             dd("ไม่พบผู้ใช้รหัสผ่านไม่ถูกต้อง");
            }
 
